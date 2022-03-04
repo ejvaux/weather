@@ -49,6 +49,7 @@ function load(coor) {
             new mapboxgl.Popup()
                 .setLngLat(coor)
                 .setHTML(data)
+                .setMaxWidth("none")
                 .addTo(map);
         }
     });
