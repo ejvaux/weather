@@ -1,3 +1,5 @@
+import mapboxgl from 'mapbox-gl';
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiZWp2YXV4IiwiYSI6ImNsMGJ1aWMyNDA1MWkzaW1sb3h1dDl0am8ifQ.dMmwpREWdseAu2EET3v0AQ';
 
 const map = new mapboxgl.Map({
@@ -35,22 +37,30 @@ map.on('load', () => {
 function load(coor) {
     console.log('test: ' + coor);
 
+    var popup = new mapboxgl.Popup()
+    .setLngLat(coor)
+    .setHTML('<h4>Loading Weather Forecast</h4>')
+    .setMaxWidth("none")
+    .addTo(map);
+
     $.ajax({
-        url: '//api.openweathermap.org/data/2.5/weather',
+        url: 'forecast',
         type: 'get',
         data: {
             'lat': coor['lat'],
             'lon': coor['lng'],
-            'appid': 'b3d00e2235a7284d22ad58a39dec80fe',
-            'mode': 'html'
+            'mode': 'html',
         },
         success: function (data) {
-            console.log(data);
+            popup.remove();
             new mapboxgl.Popup()
                 .setLngLat(coor)
                 .setHTML(data)
                 .setMaxWidth("none")
                 .addTo(map);
+        },
+        complete: function(){
+            popup.remove();
         }
     });
 }
