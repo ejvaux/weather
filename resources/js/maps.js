@@ -52,7 +52,6 @@ function load(coor) {
             'mode': 'html',
         },
         success: function (data) {
-            popup.remove();
             new mapboxgl.Popup()
                 .setLngLat(coor)
                 .setHTML(data)
